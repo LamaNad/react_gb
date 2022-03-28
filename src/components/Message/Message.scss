@@ -1,0 +1,54 @@
+body>div {
+	max-width: 800px;
+	margin: auto;
+}
+.content {
+	padding: 30px;
+}
+.sender, .recepient{
+	display: grid;
+	margin: 20px;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(1, 1fr);
+}
+
+.recepient>.author {
+	grid-area: 1 / 1 / 2 / 2;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: auto auto;
+}
+.recepient>.author .name {
+	grid-area: 1 / 1 / 2 / 2;
+	align-self: end;
+	font-weight: bold;
+	text-align: right;
+    color: #fff;
+}
+.sender>.author {
+	grid-area: 1 / 5 / 2 / 6;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: auto auto;
+}
+.sender>.author .name {
+	grid-area: 1 / 2 / 2 / 3;
+	font-weight: bold;
+	align-self: end;
+    color: #fff;
+}
+
+.sender .content {
+	grid-area: 1 / 2 / 2 / 5;
+	background: #DDA0DD;
+	border-radius: 20px 20px 20px 0;
+	text-align: left;
+	align-self: center;
+}
+.recepient .content {
+	grid-area: 1 / 2 / 2 / 5;
+	background: #AFEEEE;
+	border-radius: 20px 20px 0 20px;
+	text-align: right;
+	align-self: center;
+}
