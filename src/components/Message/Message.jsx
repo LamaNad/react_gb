@@ -1,13 +1,11 @@
-import './../../style.scss';
+import './Message.scss';
 
-export const Message = ({name, lastname, foo, clrDark}) => {
+export const Message = ({ author, text, role}) => {
     return (
-        <div id="app">
-            <h3 className={"message" + (clrDark ? " text-dark" : "")}>
-                Hello, {name} {lastname}
-            </h3>
-            <button type="button" onClick={foo}>Click me</button>
-        </div>
+        <div className={role}>
+            <div class="content">{text}</div>
+            <div class="author"><span class="name">{author}</span></div>
+        </div >
     );
 }
 
