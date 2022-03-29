@@ -13,6 +13,7 @@ function App() {
   const userRole = 'sender';
 
   useEffect(() => {
+    let timeout;
     const lastMessage = messages[messages.length - 1];
 
     if (messages.length === 0) {
@@ -20,7 +21,7 @@ function App() {
     }
 
     if (lastMessage.author !== botName) {
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         setMessages([...messages, {
           text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
           author: botName,
@@ -28,6 +29,9 @@ function App() {
         }]);
       }, 1000);
   }
+
+  return () => clearTimeout(timeout);
+
   }, [messages]);
 
   const addMessage = (newText) => {
