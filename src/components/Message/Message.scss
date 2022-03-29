@@ -41,14 +41,14 @@ body>div {
 .sender .content {
 	grid-area: 1 / 2 / 2 / 5;
 	background: #DDA0DD;
-	border-radius: 20px 20px 20px 0;
+	border-radius: 20px 20px 0 20px ;
 	text-align: left;
 	align-self: center;
 }
 .recepient .content {
 	grid-area: 1 / 2 / 2 / 5;
 	background: #AFEEEE;
-	border-radius: 20px 20px 0 20px;
+	border-radius: 20px 20px 20px 0;
 	text-align: right;
 	align-self: center;
 }
