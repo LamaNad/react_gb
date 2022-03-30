@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './style.scss';
 import { Form } from './components/Form/Form';
-import { Message } from './components/Message/Message';
+import { MessageList } from './components/MessageList/MessageList';
 
 const messageArray = []; 
 
@@ -24,21 +24,25 @@ function App() {
         setMessages([...messages, {
           text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
           author: botName,
-          role: 'recepient'
+          role: 'recepient',
+          id: `msg-${Date.now()}`,
         }]);
       }, 1000);
   }
   }, [messages]);
 
-  const addMessage = (newText) => {
-    setMessages([...messages, { text: newText, author: userName, role: userRole}]);
+  const addMessage = (text) => {
+    setMessages([...messages, { 
+      text, 
+      author: userName, 
+      role: userRole,
+      id: `msg-${Date.now()}`,
+    }]);
   };
 
   return (
     <div className="App">
-      {messages.map((messageArray) => 
-        <Message author={messageArray.author} text={messageArray.text} role={messageArray.role}/>
-      )}
+      <MessageList messages={messages} />
       <Form onSubmit={addMessage} />
     </div>
   );

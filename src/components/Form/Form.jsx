@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './Form.scss';
 
 export const Form = ({onSubmit}) => {
@@ -14,6 +14,14 @@ export const Form = ({onSubmit}) => {
     const handleChange = (e) => {
         setValue(e.target.value);
     }
+
+    useEffect(() => {
+        console.log('did mount');
+        
+        return () => {
+            console.log('will unmount');
+        };
+    },[]);
 
     return (
         <form onSubmit={handleSubmit}>
