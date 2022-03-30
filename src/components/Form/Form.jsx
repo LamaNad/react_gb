@@ -1,16 +1,18 @@
 import { Button, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import './Form.scss';
 
 export const Form = ({onSubmit}) => {
     const [value, setValue] = useState('');
+    const inputRef = useRef();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         onSubmit(value);
         setValue('');
+        inputRef.current?.focus(); // автофокус на текстовое поле  после отправки сообщения
     }
 
     const handleChange = (e) => {
@@ -19,6 +21,7 @@ export const Form = ({onSubmit}) => {
 
     useEffect(() => {
         console.log('did mount');
+        inputRef.current?.focus(); // автофокус на текстовое поле при открытии страницы
         
         return () => {
             console.log('will unmount');
@@ -36,7 +39,8 @@ export const Form = ({onSubmit}) => {
                 borderRadius: 1,
                 marginRight: '10px',
               }} 
-            value={value} onChange={handleChange} />
+            value={value} onChange={handleChange} inputRef={inputRef} />
+
             <Button
             sx={{
                 width: 150,
