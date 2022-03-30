@@ -24,12 +24,19 @@ export const Form = ({onSubmit}) => {
             console.log('will unmount');
         };
     },[]);
-
+    
     return (
         <form onSubmit={handleSubmit}>
             {/* <textarea value={value} onChange={handleChange} cols="60" rows="1"></textarea> */}
             {/* <input type="submit" value="Send"/> */}
-            <TextField value={value} onChange={handleChange} />
+            <TextField
+            sx={{
+                width: 150,
+                background: '#fff',
+                borderRadius: 1,
+                marginRight: '10px',
+              }} 
+            value={value} onChange={handleChange} />
             <Button
             sx={{
                 width: 150,

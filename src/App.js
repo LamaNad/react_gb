@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './style.scss';
 import { Form } from './components/Form/Form';
 import { MessageList } from './components/MessageList/MessageList';
 
-const messageArray = []; 
 
 function App() {
-  const [messages, setMessages] = useState(messageArray);
+  const timeout = useRef();
+  const [messages, setMessages] = useState([]);
 
   const botName = 'BOT';
   const userName = 'You';
@@ -20,7 +20,7 @@ function App() {
     }
 
     if (lastMessage.author !== botName) {
-      setTimeout(() => {
+      timeout.current = setTimeout(() => {
         setMessages([...messages, {
           text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
           author: botName,
@@ -29,6 +29,9 @@ function App() {
         }]);
       }, 1000);
   }
+  
+  return () => clearTimeout(timeout.current);
+
   }, [messages]);
 
   const addMessage = (text) => {

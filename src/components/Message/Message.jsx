@@ -1,3 +1,4 @@
+import { PropTypes } from 'prop-types';
 import './Message.scss';
 
 export const Message = ({ author, text, role}) => {
@@ -7,6 +8,11 @@ export const Message = ({ author, text, role}) => {
             <div className="author"><span className="name">{author}</span></div>
         </div >
     );
+}
+
+Message.propTypes = {
+    author: PropTypes.string.isRequired,
+    text:PropTypes.string,
 }
 
 // import React from "react";
