@@ -35,7 +35,6 @@ function App() {
   const [chats] = useState(chatListArr);
 
   useEffect(() => {
-    let timeout;
     const lastMessage = messages[messages.length - 1];
 
     if (messages.length === 0) {
