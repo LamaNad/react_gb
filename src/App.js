@@ -57,18 +57,21 @@ function App() {
   }, [messages]);
 
   const addMessage = (text) => {
-    setMessages([...messages, { 
-      text, 
-      author: USERS.userName, 
-      role: USERS.userRole,
-      id: `msg-${Date.now()}`,
-    }]);
+    if(text !== ""){
+      setMessages([...messages, { 
+        text, 
+        author: USERS.userName, 
+        role: USERS.userRole,
+        id: `msg-${Date.now()}`,
+      }]);
+    }
   };
 
   return (
     <div className="App messenger_bl">
       <div className='messenger_chatlist'>
         <div className='root'>
+          <h3>💬 Chat</h3>
           <ChatList chats={chats} />
         </div>
       </div>
