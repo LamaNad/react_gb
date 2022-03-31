@@ -34,7 +34,7 @@ export const Form = ({onSubmit}) => {
             {/* <input type="submit" value="Send"/> */}
             <TextField
             sx={{
-                width: 150,
+                width: '100%',
                 background: '#fff',
                 borderRadius: 1,
                 marginRight: '10px',
