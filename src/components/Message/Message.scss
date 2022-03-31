@@ -3,18 +3,20 @@
 }
 .messenger_chat {
     width: 80%;
-    height: 350px;
-    margin: 40px 20px;
+    height: 100vh;
 }
 .messenger_dialog {
-    height: inherit;
+    height: 450px;
     overflow-y: scroll;
     display: flex;
     flex-direction: column-reverse;
     flex-wrap: nowrap;
-    padding: 0 40px;
+    padding: 40px 60px;
     justify-content: flex-start;
     align-items: stretch;
+}
+.messenger_form {
+    padding: 0 20px;
 }
 .recepient, .sender {
     margin: 5px 0;
