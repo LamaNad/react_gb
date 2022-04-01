@@ -1,54 +1,50 @@
-body>div {
-	max-width: 800px;
-	margin: auto;
-}
 .content {
 	padding: 30px;
 }
-.sender, .recepient{
-	display: grid;
-	margin: 20px;
-	grid-template-columns: repeat(5, 1fr);
-	grid-template-rows: repeat(1, 1fr);
+.messenger_chat {
+    width: 80%;
+    height: 100vh;
 }
-
-.recepient>.author {
-	grid-area: 1 / 1 / 2 / 2;
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: auto auto;
+.messenger_dialog {
+    height: 450px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    padding: 40px 60px;
+    justify-content: flex-start;
+    align-items: stretch;
 }
-.recepient>.author .name {
-	grid-area: 1 / 1 / 2 / 2;
-	align-self: end;
-	font-weight: bold;
-	text-align: right;
-    color: #fff;
+.messenger_form {
+    padding: 0 20px;
 }
-.sender>.author {
-	grid-area: 1 / 5 / 2 / 6;
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: auto auto;
+.recepient, .sender {
+    margin: 5px 0;
 }
-.sender>.author .name {
-	grid-area: 1 / 2 / 2 / 3;
-	font-weight: bold;
-	align-self: end;
-    color: #fff;
+.recepient {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-end;
 }
-
-.sender .content {
-	grid-area: 1 / 2 / 2 / 5;
-	background: #DDA0DD;
-	border-radius: 20px 20px 0 20px ;
-	text-align: left;
-	align-self: center;
+.sender {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
 }
 .recepient .content {
-	grid-area: 1 / 2 / 2 / 5;
-	background: #AFEEEE;
-	border-radius: 20px 20px 20px 0;
-	text-align: right;
-	align-self: center;
+    padding: 10px 25px;
+    background: #fff;
+    margin: 0 20px;
+    border-radius: 20px;
+}
+.sender .content {
+    padding: 10px 25px;
+    background: #4ab6e7;
+    color: #fff;
+    margin: 0 20px;
+    border-radius: 20px;
 }

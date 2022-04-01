@@ -1,12 +1,18 @@
+import { PropTypes } from 'prop-types';
 import './Message.scss';
 
 export const Message = ({ author, text, role}) => {
     return (
         <div className={role}>
-            <div class="content">{text}</div>
-            <div class="author"><span class="name">{author}</span></div>
+            <div className="content">{text}</div>
+            <div className="author"><span className="name">{author}</span></div>
         </div >
     );
+}
+
+Message.propTypes = {
+    author: PropTypes.string.isRequired,
+    text:PropTypes.string,
 }
 
 // import React from "react";

@@ -18,5 +18,12 @@ input[type="submit"] {
 }
 form {
     text-align: right;
-    margin: 40px 0;
+    margin: 20px 0;
+    border-top: 2px solid #c1c1c1;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: flex-end;
+}
+.mybtn.MuiButton-containedPrimary:hover{
+    background: #4ab6e7;
 }
