@@ -1,6 +1,6 @@
-import { PropTypes } from 'prop-types';
 import './Message.scss';
 
+import { PropTypes } from 'prop-types';
 export const Message = ({ author, text, role}) => {
     return (
         <div className={role}>
@@ -14,19 +14,3 @@ Message.propTypes = {
     author: PropTypes.string.isRequired,
     text:PropTypes.string,
 }
-
-// import React from "react";
-
-// export class Message extends React.Component{
-//     render() {
-//         const {name, lastname, foo} = this.props;
-//         return (
-//             <div id="app">
-//                 <h3 className="message">
-//                     Hello, {name} {lastname}
-//                 </h3>
-//                 <button type="button" onClick={foo}>Click me</button>
-//             </div>
-//         );
-//     }
-// }

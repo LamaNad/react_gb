@@ -1,7 +1,7 @@
+import './Form.scss';
+
 import { Button, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-
-import './Form.scss';
 
 export const Form = ({onSubmit}) => {
     const [value, setValue] = useState('');
@@ -30,8 +30,6 @@ export const Form = ({onSubmit}) => {
     
     return (
         <form onSubmit={handleSubmit}>
-            {/* <textarea value={value} onChange={handleChange} cols="60" rows="1"></textarea> */}
-            {/* <input type="submit" value="Send"/> */}
             <TextField
             sx={{
                 width: '100%',

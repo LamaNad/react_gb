@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
 import './style.scss';
+
+import { useEffect, useRef, useState } from 'react';
 import { Form } from './components/Form/Form';
 import { MessageList } from './components/MessageList/MessageList';
 import { ChatList } from './components/ChatList/ChatList';
-import { USERS } from './Utils/constants';
+import { USERS } from './utils/constants';
 
-const message = `Truncation should be conditionally applicable on this long line of text
-as this is a much longer line than what the container can support. `;
+const message = `It has survived not only five centuries, but also the leap into electronic typesetting, 
+remaining essentially unchanged.`;
 
 const chatListArr = [
   {
@@ -37,11 +38,7 @@ function App() {
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
 
-    if (messages.length === 0) {
-      return;
-    }
-
-    if (lastMessage.author !== USERS.botName) {
+    if (lastMessage?.author !== USERS.botName) {
       timeout.current = setTimeout(() => {
         setMessages([...messages, {
           text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
