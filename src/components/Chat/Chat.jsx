@@ -1,11 +1,12 @@
 import { Avatar, Grid, Paper, Typography } from '@mui/material';
+import './Chat.scss';
 
-export const Chat = ({ author, text, data}) => {
+export const Chat = ({ author, text}) => {
     return (
         <Paper className="paper">
         <Grid container wrap="nowrap" spacing={2}>
           <Grid item>
-            <Avatar>{ author.charAt(0) }</Avatar>
+            <Avatar className='sender_avatar'>{ author.charAt(0) }</Avatar>
           </Grid>
           <Grid item xs zeroMinWidth>
             <div className='chats_author'>{ author }</div>

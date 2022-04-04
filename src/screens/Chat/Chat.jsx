@@ -3,35 +3,11 @@ import { Form } from '../../components/Form/Form';
 import { MessageList } from '../../components/MessageList/MessageList';
 import { ChatList } from '../../components/ChatList/ChatList';
 import { USERS } from '../../utils/constants';
-
-const message = `It has survived not only five centuries, but also the leap into electronic typesetting, 
-remaining essentially unchanged.`;
-
-const chatListArr = [
-  {
-    id: `chat-1`,
-    author: 'Ann',
-    lastMessage: message,
-    data: '31 mart 2022',
-  },
-  {
-    id: `chat-2`,
-    author: 'Tomm',
-    lastMessage: message,
-    data: '30 mart 2022',
-  },
-  {
-    id: `chat-3`,
-    author: 'Jess',
-    lastMessage: message,
-    data: '28 mart 2022',
-  },
-];
+import { MainLayout } from '../../components/Layout/MainLayout';
 
 export function Chat() {
   const timeout = useRef();
   const [messages, setMessages] = useState([]);
-  const [chats] = useState(chatListArr);
 
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
@@ -63,11 +39,12 @@ export function Chat() {
   };
 
   return (
+    <MainLayout>
     <div className="App messenger_bl">
       <div className='messenger_chatlist'>
         <div className='root'>
           <h3>💬 Chat</h3>
-          <ChatList chats={chats} />
+          <ChatList />
         </div>
       </div>
       <div className='messenger_chat'>
@@ -81,5 +58,6 @@ export function Chat() {
         </div>
       </div>
     </div>
+    </MainLayout>
   );
 }
