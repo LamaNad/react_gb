@@ -1,12 +1,12 @@
 .content {
 	padding: 30px;
+    font-size: 12px;
 }
 .messenger_chat {
-    width: 900px;
-    height: 600px;
+    height: 425px;
 }
 .messenger_dialog {
-    height: 450px;
+    height: 100%;
     overflow-y: scroll;
     display: flex;
     flex-direction: column-reverse;
@@ -14,9 +14,6 @@
     padding: 40px 60px;
     justify-content: flex-start;
     align-items: stretch;
-}
-.messenger_form {
-    padding: 0 20px;
 }
 .recepient, .sender {
     margin: 5px 0;
@@ -37,13 +34,14 @@
 }
 .recepient .content {
     padding: 10px 25px;
-    background: #fff;
+    background: #333;
+    color: #fff;
     margin: 0 20px;
     border-radius: 20px;
 }
 .sender .content {
     padding: 10px 25px;
-    background: #4ab6e7;
+    background: #564697;
     color: #fff;
     margin: 0 20px;
     border-radius: 20px;

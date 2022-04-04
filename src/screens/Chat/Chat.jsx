@@ -1,63 +1,96 @@
-import { useEffect, useRef, useState } from 'react';
-import { Form } from '../../components/Form/Form';
-import { MessageList } from '../../components/MessageList/MessageList';
-import { ChatList } from '../../components/ChatList/ChatList';
-import { USERS } from '../../utils/constants';
+import { useState } from 'react';
 import { MainLayout } from '../../components/Layout/MainLayout';
+import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { Avatar, Grid, Paper, Typography } from '@mui/material';
 
-export function Chat() {
-  const timeout = useRef();
-  const [messages, setMessages] = useState([]);
+const message = `It has survived not only five centuries, but also the leap into electronic typesetting, 
+remaining essentially unchanged.`;
 
-  useEffect(() => {
-    const lastMessage = messages[messages.length - 1];
+const chatListArr = [
+  {
+    id: `chat1`,
+    author: 'Ann',
+    lastMessage: message,
+    data: '31 mart 2022',
+  },
+  {
+    id: `chat2`,
+    author: 'Tomm',
+    lastMessage: message,
+    data: '30 mart 2022',
+  },
+  {
+    id: `chat3`,
+    author: 'Jess',
+    lastMessage: message,
+    data: '28 mart 2022',
+  },
+];
 
-    if (lastMessage?.author !== USERS.botName) {
-      timeout.current = setTimeout(() => {
-        setMessages([...messages, {
-          text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
-          author: USERS.botName,
-          role: 'recepient',
-          id: `msg-${Date.now()}`,
-        }]);
-      }, 1000);
-  }
-    
-  return () => clearTimeout(timeout.current);
-
-  }, [messages]);
-
-  const addMessage = (text) => {
-    if(text !== ""){
-      setMessages([...messages, { 
-        text, 
-        author: USERS.userName, 
-        role: USERS.userRole,
-        id: `msg-${Date.now()}`,
-      }]);
-    }
-  };
+export const Chat = () => {
+  const { id } = useParams();
+  const [chats] = useState(chatListArr);
 
   return (
     <MainLayout>
-    <div className="App messenger_bl">
-      <div className='messenger_chatlist'>
-        <div className='root'>
-          <h3>💬 Chat</h3>
-          <ChatList />
-        </div>
-      </div>
-      <div className='messenger_chat'>
-        <div className='messenger_dialog'>
-          <div className='messeges'>
-            <MessageList messages={messages} />
+      <div className="wrapper">
+        <div className="left-side">
+          <div className="side-wrapper">
+            <div className="side-title">Messages</div>
+            <div className="side-menu">
+              <div className="chat-list">
+                {chats.map((chat) => (
+                  <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to={`/chat/${chat.id}`} key={chat.id}>
+                    <Paper className="paper">
+                      <Grid container wrap="nowrap" spacing={2}>
+                        <Grid item>
+                          <Avatar className='sender_avatar'>{chat.author.charAt(0)}</Avatar>
+                        </Grid>
+                        <Grid item xs zeroMinWidth className='chat_message'>
+                          <div className='chats_author'>{chat.author}</div>
+                          <Typography noWrap>{chat.data}</Typography>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  </NavLink>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-        <div className='messenger_form'>
-          <Form onSubmit={addMessage} />
+        <div className="main-container">
+          <div className="main-header">
+            <div className="header-menu">
+              <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to="/chat">Chat</NavLink>
+              <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to="/profile">Profile</NavLink>
+            </div>
+          </div>
+          <div className="content-wrapper">
+
+            { !id ? 
+              <div className="content_chat-list">
+                {chats.map((chat) => (
+                  <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to={`/chat/${chat.id}`} key={chat.id}>
+                    <Paper className="paper">
+                      <Grid container wrap="nowrap" spacing={2}>
+                        <Grid item>
+                          <Avatar className='sender_avatar'>{chat.author.charAt(0)}</Avatar>
+                        </Grid>
+                        <Grid item xs zeroMinWidth className='chat_message'>
+                          <div className='chats_author'>{chat.author}</div>
+                          <Typography noWrap>{chat.data}</Typography>
+                        </Grid>
+                      </Grid>
+                    </Paper>
+                  </NavLink>
+                ))}
+              </div>
+              : '' }
+
+            <Outlet />
+          </div>
         </div>
       </div>
-    </div>
     </MainLayout>
   );
 }

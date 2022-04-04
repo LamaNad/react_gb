@@ -16,12 +16,15 @@ textarea {
     font-weight: 600;
     width: 150px;
     margin-left: 10px;
+  @media screen and (max-width: 944px) {
+    display: none;
+  }
 }
 form {
     text-align: right;
     margin: 20px 0;
     border-top: 2px solid #c1c1c1;
-    padding: 20px 40px;
+    padding: 6px 0;
     display: flex;
     justify-content: flex-end;
 }

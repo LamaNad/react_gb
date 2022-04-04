@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { MainLayout } from '../../components/Layout/MainLayout';
 
-export const Home = () => {
+export const Profile = () => {
     return (
         <MainLayout>
         <div className="wrapper">
@@ -13,7 +13,7 @@ export const Home = () => {
               </div>
             </div>
             <div className="content-wrapper">
-                Welcome to the chat!
+                Profile
             </div>
           </div>
         </div>
