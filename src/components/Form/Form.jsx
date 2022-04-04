@@ -30,21 +30,8 @@ export const Form = ({ onSubmit }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <TextField
-                sx={{
-                    width: '100%',
-                    background: '#fff',
-                    borderRadius: 1,
-                    marginRight: '10px',
-                }}
-                value={value} onChange={handleChange} inputRef={inputRef} />
-
-            <Button
-                sx={{
-                    width: 150,
-                    background: '#8dd23c'
-                }}
-                className="mybtn" type="submit" variant="contained" >Send</Button>
+            <TextField className="messageInput" value={value} onChange={handleChange} inputRef={inputRef} />
+            <Button className="mybtn" type="submit" variant="contained" >Send</Button>
         </form>
     )
 }
