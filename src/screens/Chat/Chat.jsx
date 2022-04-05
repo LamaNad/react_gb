@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { MainLayout } from '../../components/Layout/MainLayout';
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 import { Avatar, Grid, Paper, Typography } from '@mui/material';
+import { ChatList } from '../../components/ChatList/ChatList';
 
 const message = `It has survived not only five centuries, but also the leap into electronic typesetting, 
 remaining essentially unchanged.`;
@@ -60,26 +61,7 @@ export const Chat = () => {
         </div>
         <div className="main-container">
           <div className="content-wrapper">
-
-            { !id && 
-              <div className="content_chat-list">
-                {chats.map((chat) => (
-                  <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to={`/chat/${chat.id}`} key={chat.id}>
-                    <Paper className="paper">
-                      <Grid container wrap="nowrap" spacing={2}>
-                        <Grid item>
-                          <Avatar className='sender_avatar'>{chat.author.charAt(0)}</Avatar>
-                        </Grid>
-                        <Grid item xs zeroMinWidth className='chat_message'>
-                          <div className='chats_author'>{chat.author}</div>
-                          <Typography noWrap>{chat.data}</Typography>
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                  </NavLink>
-                ))}
-              </div> }
-
+            { !id && <ChatList chats={chats} /> }
             <Outlet />
           </div>
         </div>
