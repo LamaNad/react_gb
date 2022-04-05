@@ -1,15 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import { Avatar, Button, Grid, Paper, Typography } from '@mui/material';
+import { Avatar, Grid, Paper, Typography } from '@mui/material';
 
 export const ChatList = ({ chats }) => {
+
   return (
     <div>
-      <Button onClick={() => {}
-          //setTheme((prevTheme) => (prevTheme === 'dark' ? 'light' : 'dark'))
-        }>
-        Click
-      </Button>
-
       {chats.map((chat) => (
         <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to={`/chat/${chat.id}`} key={chat.id}>
           <Paper className="paper">
