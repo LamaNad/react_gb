@@ -1,7 +1,7 @@
 import './mainStyles.scss';
 
 import { TextField } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export const MainLayout = ({ children }) =>
     <div className="app">
@@ -9,6 +9,7 @@ export const MainLayout = ({ children }) =>
             <div className="menu-circle"></div>
             <div className="header-menu">
                 <NavLink className={({ isActive }) => 'logo-link' + (isActive ? ' is-active' : '')} to="/">Chat App</NavLink>
+                <NavLink className={({ isActive }) => 'top-link' + (isActive ? ' is-active' : '')} to="/">Home</NavLink>
                 <NavLink className={({ isActive }) => 'top-link' + (isActive ? ' is-active' : '')} to="/chat">Chat</NavLink>
                 <NavLink className={({ isActive }) => 'top-link' + (isActive ? ' is-active' : '')} to="/profile">Profile</NavLink>
             </div>
@@ -17,6 +18,12 @@ export const MainLayout = ({ children }) =>
             </div>
         </div>
         { children }
+            <div className="main-header">
+              <div className="header-menu">
+                <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to="/chat">Chat</NavLink>
+                <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to="/profile">Profile</NavLink>
+              </div>
+            </div>
         <div className="overlay-app"></div>
     </div>
     ;

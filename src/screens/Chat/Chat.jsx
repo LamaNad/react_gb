@@ -59,15 +59,9 @@ export const Chat = () => {
           </div>
         </div>
         <div className="main-container">
-          <div className="main-header">
-            <div className="header-menu">
-              <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to="/chat">Chat</NavLink>
-              <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to="/profile">Profile</NavLink>
-            </div>
-          </div>
           <div className="content-wrapper">
 
-            { !id ? 
+            { !id && 
               <div className="content_chat-list">
                 {chats.map((chat) => (
                   <NavLink className={({ isActive }) => 'menu-link' + (isActive ? ' is-active' : '')} to={`/chat/${chat.id}`} key={chat.id}>
@@ -84,8 +78,7 @@ export const Chat = () => {
                     </Paper>
                   </NavLink>
                 ))}
-              </div>
-              : '' }
+              </div> }
 
             <Outlet />
           </div>
