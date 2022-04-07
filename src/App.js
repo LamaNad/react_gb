@@ -1,11 +1,19 @@
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home } from "./screens/Home/Home";
+//  COMPONENTS
 import { Chat } from "./components/Chat/Chat";
+//  SCREENS
+import { Home } from "./screens/Home/Home";
 import { Chat as ChatScreen } from "./screens/Chat/Chat";
 import { Profile } from "./screens/Profile/Profile";
-import { useState } from "react";
+//  UTILS
 import { ThemeContext } from "./utils/ThemeContext";
+//  REACT-REDUX
+import { Provider } from "react-redux";
+import { store } from "./store";
 
+
+// APP
 function App() {
   const [theme, setTheme] = useState("dark");
 
@@ -14,6 +22,7 @@ function App() {
   };
 
   return(
+    <Provider store={store} >
     <ThemeContext.Provider value={{theme, changeTheme: toggleTheme}}>
       <BrowserRouter>
         <Routes>
@@ -28,6 +37,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </ThemeContext.Provider>
+    </Provider>
   )
 
 }
