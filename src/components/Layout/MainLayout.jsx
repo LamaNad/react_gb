@@ -9,13 +9,11 @@ export const MainLayout = ({ children }) =>{
     const { changeTheme } = useContext(ThemeContext);
     const { theme } = useContext(ThemeContext);
 
+    const lightMode= () => document.body.classList.add('light-mode');
+    const darkMode= () => document.body.classList.remove('light-mode');
+
     useEffect(() => {
-        (theme === "dark") ?
-            document.body.classList.add('light-mode')
-        :
-            document.body.classList.remove('light-mode')
-        ;
-        
+        (theme === "dark") ? lightMode() : darkMode();
     },[theme]);
 
     return(

@@ -6,8 +6,7 @@ import { ThemeContext } from '../../utils/ThemeContext';
 
 export const Message = ({ author, text, role }) => {
     const {theme} = useContext(ThemeContext);
-    //console.log(theme);
-    //style={{ color: theme === "dark" ? "red" : "blue" }}
+    
     return (
         <div className={role}>
             <div style={{ backgroundColor: theme === "dark" ? "#564697" : "#fff", color: theme === "dark" ? "#fff" : "#333" }} className="content">{text}</div>
