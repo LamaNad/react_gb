@@ -35,12 +35,11 @@ export function Chat() {
   };
 
   useEffect(() => {
-    const id = this.id;
     const lastMessage = messages[id]?.[messages[id]?.length - 1];
 
     if (messages[id]?.length !== 0 && lastMessage?.author !== USERS.botName) {
       timeout.current = setTimeout(() => {
-        this.addMessage({
+        addMessage({
           text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
           author: USERS.botName,
           role: 'recepient',
