@@ -2,10 +2,23 @@ import React from 'react';
 import { MainLayout } from '../../components/Layout/MainLayout';
 import { Outlet, useParams } from 'react-router-dom';
 import { ChatList } from '../../components/ChatList/ChatList';
+import { Form } from '../../components/Form/Form';
 
 
-export const Chat = ({ chats }) => {
+export const Chat = ({ chats, addChat }) => {
   const { id } = useParams();
+  let options = { year: 'numeric', month: 'long', day: 'numeric' };
+  let dateToday = new Date().toLocaleString('en-EN', options);
+
+  const handleSubmit = (newChatName) => {
+    const newChat = {
+      author: newChatName,
+      data: dateToday,
+      id: `chat-${Date.now()}`,
+    };
+
+    addChat(newChat);
+  };
 
   return (
     <MainLayout>
@@ -16,6 +29,7 @@ export const Chat = ({ chats }) => {
             <div className="side-menu">
               <div className="chat-list">
                 <ChatList chats={chats} />
+                <Form onSubmit={handleSubmit} />
               </div>
             </div>
           </div>
@@ -23,7 +37,11 @@ export const Chat = ({ chats }) => {
         <div className="main-container">
           <div className="content-wrapper">
             <div className="content_chat-list">
-              { !id && <ChatList chats={chats} /> }
+              {!id && <>
+                <label>New chat:</label>
+                <Form onSubmit={handleSubmit}/> 
+                <ChatList chats={chats} />
+              </> }
             </div>
             <Outlet />
           </div>

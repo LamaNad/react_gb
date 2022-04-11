@@ -12,25 +12,20 @@ import { ThemeContext } from "./utils/ThemeContext";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
-const message = `It has survived not only five centuries, but also the leap into electronic typesetting, 
-remaining essentially unchanged.`;
 const chatListArr = [
   {
     id: `chat1`,
     author: 'Ann',
-    lastMessage: message,
     data: '31 mart 2022',
   },
   {
     id: `chat2`,
     author: 'Tomm',
-    lastMessage: message,
     data: '30 mart 2022',
   },
   {
     id: `chat3`,
     author: 'Jess',
-    lastMessage: message,
     data: '28 mart 2022',
   },
 ];
@@ -54,6 +49,10 @@ function App() {
     setMessages({ ...messages, [id]: [...messages[id], newMsg] });
   };
 
+  const addChat = (newChat) => {
+    setChats(prevChats => [...prevChats, newChat]);
+  };
+
   return(
     <Provider store={store} >
     <ThemeContext.Provider value={{theme, changeTheme: toggleTheme}}>
@@ -62,7 +61,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
 
-          <Route path="/chat" element={<ChatScreen chats={chats} />}>
+          <Route path="/chat" element={<ChatScreen chats={chats} addChat={addChat} />}>
             <Route path=":id" element={<Chat messages={messages} addMessage={addMessage} />} />
           </Route>
 

@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { Avatar, Grid, Paper, Typography } from '@mui/material';
+import { Form } from '../Form/Form';
 
 export const ChatList = ({ chats }) => {
 
@@ -13,8 +14,8 @@ export const ChatList = ({ chats }) => {
                 <Avatar className='sender_avatar'>{chat.author.charAt(0)}</Avatar>
               </Grid>
               <Grid item xs zeroMinWidth className='chat_message'>
-                <div className='chats_author'>{chat.author}</div>
-                <Typography noWrap>{chat.data}</Typography>
+                <Typography noWrap>{chat.author}</Typography>
+                <div className='chats_author'>{chat.data}</div>
               </Grid>
             </Grid>
           </Paper>

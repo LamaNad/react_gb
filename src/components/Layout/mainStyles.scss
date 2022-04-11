@@ -312,7 +312,7 @@ body.light-mode .video-bg:before {
 }
 
 .left-side {
- flex-basis: 240px;
+ //flex-basis: 240px;
  border-right: 1px solid var(--border-color);
  padding: 26px;
  overflow: auto;
@@ -905,4 +905,9 @@ a.menu-link.is-active{
 
 .mt-2{
   margin-top: 20px;
+}
+
+// ===========================================
+.chat-list>form>.messageInput>.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root {
+  height: 30px;
 }
