@@ -19,7 +19,7 @@ export const Profile = () => {
           <div className="content-wrapper">
               Profile
               <div className='show_username__bl'>
-                <Switch onChange={handleClick} />
+                <Switch onChange={handleClick} checked={state.showName} />
                 Username
               </div>
               { state.showName && <span>{ state.name }</span>}
