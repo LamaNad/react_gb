@@ -5,32 +5,21 @@ import { USERS } from '../../utils/constants';
 import { Navigate, useParams } from 'react-router-dom';
 import './Chat.scss';
 
-
-const initMessages = {
-  chat1: [],
-  chat2: [],
-  chat3: [],
-};
-
-export function Chat() {
+export function Chat({ messages, addMessage }) {
   const { id } = useParams();
   const timeout = useRef();
   const wrapperRef = useRef();
-  
-  const [messages, setMessages] = useState(initMessages);
-
-  const addMessage = (newMsg) => {
-    setMessages({ ...messages, [id]: [...messages[id], newMsg] });
-  };
 
   const sendMessage = (text) => {
     if(text !== ""){
       addMessage({
-        text, 
-        author: USERS.userName, 
-        role: USERS.userRole,
-        id: `msg-${Date.now()}`,
-      });
+          text, 
+          author: USERS.userName, 
+          role: USERS.userRole,
+          id: `msg-${Date.now()}`,
+        },
+        id
+      );
     }
   };
 
@@ -40,11 +29,13 @@ export function Chat() {
     if (messages[id]?.length !== 0 && lastMessage?.author !== USERS.botName) {
       timeout.current = setTimeout(() => {
         addMessage({
-          text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
-          author: USERS.botName,
-          role: 'recepient',
-          id: `msg-${Date.now()}`,
-        });
+            text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
+            author: USERS.botName,
+            role: 'recepient',
+            id: `msg-${Date.now()}`,
+          },
+          id
+        );
       }, 1000);
   }
     

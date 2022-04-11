@@ -12,13 +12,46 @@ import { ThemeContext } from "./utils/ThemeContext";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
+const message = `It has survived not only five centuries, but also the leap into electronic typesetting, 
+remaining essentially unchanged.`;
+const chatListArr = [
+  {
+    id: `chat1`,
+    author: 'Ann',
+    lastMessage: message,
+    data: '31 mart 2022',
+  },
+  {
+    id: `chat2`,
+    author: 'Tomm',
+    lastMessage: message,
+    data: '30 mart 2022',
+  },
+  {
+    id: `chat3`,
+    author: 'Jess',
+    lastMessage: message,
+    data: '28 mart 2022',
+  },
+];
+
+const initMessages = chatListArr.reduce((acc, chat) => {
+  acc[chat.id] = [];
+  return acc;
+}, {});
 
 // APP
 function App() {
   const [theme, setTheme] = useState("dark");
+  const [chats, setChats] = useState(chatListArr);
+  const [messages, setMessages] = useState(initMessages);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
+  };
+
+  const addMessage = (newMsg, id) => {
+    setMessages({ ...messages, [id]: [...messages[id], newMsg] });
   };
 
   return(
@@ -29,8 +62,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
 
-          <Route path="/chat" element={<ChatScreen />}>
-            <Route path=":id" element={<Chat />} />
+          <Route path="/chat" element={<ChatScreen chats={chats} />}>
+            <Route path=":id" element={<Chat messages={messages} addMessage={addMessage} />} />
           </Route>
 
           <Route path="*" element={<h4>404</h4>} />

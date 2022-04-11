@@ -1,35 +1,11 @@
-import { useState } from 'react';
+import React from 'react';
 import { MainLayout } from '../../components/Layout/MainLayout';
 import { Outlet, useParams } from 'react-router-dom';
 import { ChatList } from '../../components/ChatList/ChatList';
 
-const message = `It has survived not only five centuries, but also the leap into electronic typesetting, 
-remaining essentially unchanged.`;
 
-const chatListArr = [
-  {
-    id: `chat1`,
-    author: 'Ann',
-    lastMessage: message,
-    data: '31 mart 2022',
-  },
-  {
-    id: `chat2`,
-    author: 'Tomm',
-    lastMessage: message,
-    data: '30 mart 2022',
-  },
-  {
-    id: `chat3`,
-    author: 'Jess',
-    lastMessage: message,
-    data: '28 mart 2022',
-  },
-];
-
-export const Chat = () => {
+export const Chat = ({ chats }) => {
   const { id } = useParams();
-  const [chats] = useState(chatListArr);
 
   return (
     <MainLayout>
