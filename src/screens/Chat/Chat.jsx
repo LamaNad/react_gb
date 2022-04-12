@@ -5,9 +5,9 @@ import { ChatList } from '../../components/ChatList/ChatList';
 import { Form } from '../../components/Form/Form';
 
 
-export const Chat = ({ chats, addChat }) => {
+export const Chat = ({ chats, addChat, deleteChat }) => {
   const { id } = useParams();
-  let options = { year: 'numeric', month: 'long', day: 'numeric' };
+  let options = { year: 'numeric', month: 'short', day: 'numeric' };
   let dateToday = new Date().toLocaleString('en-EN', options);
 
   const handleSubmit = (newChatName) => {
@@ -28,7 +28,7 @@ export const Chat = ({ chats, addChat }) => {
             <div className="side-title">Messages</div>
             <div className="side-menu">
               <div className="chat-list">
-                <ChatList chats={chats} />
+                <ChatList chats={chats} deleteChat={deleteChat} />
                 <Form onSubmit={handleSubmit} />
               </div>
             </div>

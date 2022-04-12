@@ -9,8 +9,9 @@ import { Profile } from "./screens/Profile/Profile";
 //  UTILS
 import { ThemeContext } from "./utils/ThemeContext";
 //  REACT-REDUX
-import { Provider } from "react-redux";
-import { store } from "./store";
+import { useDispatch, useSelector } from "react-redux";
+// STORE
+import { addChat, deleteChat } from "./store/chats/actions";
 
 const chatListArr = [
   {
@@ -37,8 +38,11 @@ const initMessages = chatListArr.reduce((acc, chat) => {
 
 // APP
 function App() {
+  const dispatch = useDispatch();
+
   const [theme, setTheme] = useState("dark");
-  const [chats, setChats] = useState(chatListArr);
+
+  const chats = useSelector(state => state.chats);
   const [messages, setMessages] = useState(initMessages);
 
   const toggleTheme = () => {
@@ -49,27 +53,48 @@ function App() {
     setMessages({ ...messages, [id]: [...messages[id], newMsg] });
   };
 
-  const addChat = (newChat) => {
-    setChats(prevChats => [...prevChats, newChat]);
+  const addNewChat  = (newChat) => {
+    dispatch(addChat(newChat));
+    setMessages((prevMessages) => ({...prevMessages, [newChat.id] : []}));
+  };
+
+  const removeChat = (id) => {
+    dispatch(deleteChat(id));
+    setMessages((prevMessages) => {
+      const newMessages = { ...prevMessages };
+      delete newMessages[id];
+      return newMessages;
+    });
   };
 
   return(
-    <Provider store={store} >
     <ThemeContext.Provider value={{theme, changeTheme: toggleTheme}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
 
-          <Route path="/chat" element={<ChatScreen chats={chats} addChat={addChat} />}>
-            <Route path=":id" element={<Chat messages={messages} addMessage={addMessage} />} />
+          <Route path="/chat" element={
+              <ChatScreen 
+                chats={chats} 
+                addChat={ addNewChat } 
+                deleteChat={removeChat} 
+              /> 
+              } 
+            >
+            <Route path=":id" element={
+              <Chat 
+                messages={messages} 
+                addMessage={addMessage} 
+              />
+              } 
+            />
           </Route>
 
           <Route path="*" element={<h4>404</h4>} />
         </Routes>
       </BrowserRouter>
     </ThemeContext.Provider>
-    </Provider>
   )
 
 }
