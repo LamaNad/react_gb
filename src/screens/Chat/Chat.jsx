@@ -40,7 +40,7 @@ export const Chat = ({ chats, addChat, deleteChat }) => {
               {!id && <>
                 <label>New chat:</label>
                 <Form onSubmit={handleSubmit}/> 
-                <ChatList chats={chats} />
+                <ChatList chats={chats} deleteChat={deleteChat}/>
               </> }
             </div>
             <Outlet />

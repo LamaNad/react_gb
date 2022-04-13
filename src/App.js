@@ -76,9 +76,9 @@ function App() {
 
           <Route path="/chat" element={
               <ChatScreen 
-                chats={chats} 
+                chats={ chats } 
                 addChat={ addNewChat } 
-                deleteChat={removeChat} 
+                deleteChat={ removeChat } 
               /> 
               } 
             >
