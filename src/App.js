@@ -9,9 +9,10 @@ import { Profile } from "./screens/Profile/Profile";
 //  UTILS
 import { ThemeContext } from "./utils/ThemeContext";
 //  REACT-REDUX
-import { useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 // STORE
 import { addChat, deleteChat } from "./store/chats/actions";
+import { selectChats } from "./store/chats/selectors";
 
 const chatListArr = [
   {
@@ -42,7 +43,7 @@ function App() {
 
   const [theme, setTheme] = useState("dark");
 
-  const chats = useSelector(state => state.chats);
+  const chats = useSelector(selectChats, shallowEqual);
   const [messages, setMessages] = useState(initMessages);
 
   const toggleTheme = () => {
