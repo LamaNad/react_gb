@@ -12,30 +12,10 @@ import { ThemeContext } from "./utils/ThemeContext";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 // STORE
 import { addChat, deleteChat } from "./store/chats/actions";
+import { addMessage, clearMessagesForChat, initMessagesForChat } from "./store/messages/actions";
 import { selectChats } from "./store/chats/selectors";
+import { selectMessages } from "./store/messages/selectors";
 
-const chatListArr = [
-  {
-    id: `chat1`,
-    author: 'Ann',
-    data: '31 mart 2022',
-  },
-  {
-    id: `chat2`,
-    author: 'Tomm',
-    data: '30 mart 2022',
-  },
-  {
-    id: `chat3`,
-    author: 'Jess',
-    data: '28 mart 2022',
-  },
-];
-
-const initMessages = chatListArr.reduce((acc, chat) => {
-  acc[chat.id] = [];
-  return acc;
-}, {});
 
 // APP
 function App() {
@@ -44,28 +24,24 @@ function App() {
   const [theme, setTheme] = useState("dark");
 
   const chats = useSelector(selectChats, shallowEqual);
-  const [messages, setMessages] = useState(initMessages);
+  const messages = useSelector(selectMessages);
 
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
   };
 
-  const addMessage = (newMsg, id) => {
-    setMessages({ ...messages, [id]: [...messages[id], newMsg] });
+  const addNewMessage = (newMsg, id) => {
+    dispatch(addMessage(newMsg, id));
   };
 
   const addNewChat  = (newChat) => {
     dispatch(addChat(newChat));
-    setMessages((prevMessages) => ({...prevMessages, [newChat.id] : []}));
+    dispatch(initMessagesForChat(newChat.id));
   };
 
   const removeChat = (id) => {
     dispatch(deleteChat(id));
-    setMessages((prevMessages) => {
-      const newMessages = { ...prevMessages };
-      delete newMessages[id];
-      return newMessages;
-    });
+    dispatch(clearMessagesForChat(id));
   };
 
   return(
@@ -86,7 +62,7 @@ function App() {
             <Route path=":id" element={
               <Chat 
                 messages={messages} 
-                addMessage={addMessage} 
+                addMessage={addNewMessage} 
               />
               } 
             />
