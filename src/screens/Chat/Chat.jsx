@@ -3,21 +3,27 @@ import { MainLayout } from '../../components/Layout/MainLayout';
 import { Outlet, useParams } from 'react-router-dom';
 import { ChatList } from '../../components/ChatList/ChatList';
 import { Form } from '../../components/Form/Form';
+import { useDispatch } from 'react-redux';
+import { addChat } from '../../store/chats/actions';
+import { initMessagesForChat } from '../../store/messages/actions';
 
 
-export const Chat = ({ chats, addChat, deleteChat }) => {
+export const Chat = () => {
+  const dispatch = useDispatch();
   const { id } = useParams();
+
   let options = { year: 'numeric', month: 'short', day: 'numeric' };
   let dateToday = new Date().toLocaleString('en-EN', options);
 
-  const handleSubmit = (newChatName) => {
+  const addNewChat = (newChatName) => {
     const newChat = {
       author: newChatName,
       data: dateToday,
       id: `chat-${Date.now()}`,
     };
 
-    addChat(newChat);
+    dispatch(addChat(newChat));
+    dispatch(initMessagesForChat(newChat.id));
   };
 
   return (
@@ -28,8 +34,8 @@ export const Chat = ({ chats, addChat, deleteChat }) => {
             <div className="side-title">Messages</div>
             <div className="side-menu">
               <div className="chat-list">
-                <ChatList chats={chats} deleteChat={deleteChat} />
-                <Form onSubmit={handleSubmit} />
+                <ChatList />
+                <Form onSubmit={addNewChat} />
               </div>
             </div>
           </div>
@@ -39,8 +45,8 @@ export const Chat = ({ chats, addChat, deleteChat }) => {
             <div className="content_chat-list">
               {!id && <>
                 <label>New chat:</label>
-                <Form onSubmit={handleSubmit}/> 
-                <ChatList chats={chats} deleteChat={deleteChat}/>
+                <Form onSubmit={addNewChat}/> 
+                <ChatList />
               </> }
             </div>
             <Outlet />

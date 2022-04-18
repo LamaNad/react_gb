@@ -13,8 +13,9 @@ export const addMessage = (newMsg, chatId) => ({
 export const initMessagesForChat = (chatId) => ({
     type: INIT_MESSAGES_FOR_CHAT,
     payload: chatId,
-})
+});
+
 export const clearMessagesForChat = (chatId) => ({
     type: CLEAR_MESSAGES_FOR_CHAT,
     payload: chatId,
-})
+});
