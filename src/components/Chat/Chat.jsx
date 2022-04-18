@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { USERS } from '../../utils/constants';
@@ -8,15 +8,16 @@ import { Form } from '../../components/Form/Form';
 import { MessageList } from '../../components/MessageList/MessageList';
 
 import { addMessage } from '../../store/messages/actions';
-import { selectMessages } from "../../store/messages/selectors";
+import { selectMessagesByChatId } from "../../store/messages/selectors";
 
 export function Chat() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const timeout = useRef();
   const wrapperRef = useRef();
+  const getMessages = useMemo(() => selectMessagesByChatId(id), [id]); // Будет перевыполняться только тогда, когда изменится массив зависимостей
 
-  const messages = useSelector(selectMessages);
+  const messages = useSelector(getMessages);
 
   const sendMessage = (text) => {
     if(text !== ""){
@@ -36,9 +37,9 @@ export function Chat() {
   };
 
   useEffect(() => {
-    const lastMessage = messages[id]?.[messages[id]?.length - 1];
+    const lastMessage = messages?.[messages?.length - 1];
 
-    if (messages[id]?.length !== 0 && lastMessage?.author !== USERS.botName) {
+    if (messages?.length !== 0 && lastMessage?.author !== USERS.botName) {
       timeout.current = setTimeout(() => {
         addNewMessage({
             text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
@@ -55,7 +56,7 @@ export function Chat() {
 
   }, [messages]);
 
-  if (!messages[id]) {
+  if (!messages) {
     return <Navigate to="/chat" replace />
   }
 
@@ -64,7 +65,7 @@ export function Chat() {
         <div className='messenger_chat'>
           <div className='messenger_dialog'>
             <div className='messeges'>
-              <MessageList messages={messages[id]} />
+              <MessageList messages={messages} />
             </div>
           </div>
           <div className='messenger_form'>
