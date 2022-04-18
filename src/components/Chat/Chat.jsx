@@ -1,37 +1,38 @@
-import { useEffect, useRef, useState } from 'react';
-import { Form } from '../../components/Form/Form';
-import { MessageList } from '../../components/MessageList/MessageList';
-import { USERS } from '../../utils/constants';
+import { useEffect, useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { USERS } from '../../utils/constants';
 import './Chat.scss';
 
+import { Form } from '../../components/Form/Form';
+import { MessageList } from '../../components/MessageList/MessageList';
 
-const initMessages = {
-  chat1: [],
-  chat2: [],
-  chat3: [],
-};
+import { addMessage } from '../../store/messages/actions';
+import { selectMessages } from "../../store/messages/selectors";
 
 export function Chat() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const timeout = useRef();
   const wrapperRef = useRef();
-  
-  const [messages, setMessages] = useState(initMessages);
 
-  const addMessage = (newMsg) => {
-    setMessages({ ...messages, [id]: [...messages[id], newMsg] });
-  };
+  const messages = useSelector(selectMessages);
 
   const sendMessage = (text) => {
     if(text !== ""){
-      addMessage({
-        text, 
-        author: USERS.userName, 
-        role: USERS.userRole,
-        id: `msg-${Date.now()}`,
-      });
+      addNewMessage({
+          text, 
+          author: USERS.userName, 
+          role: USERS.userRole,
+          id: `msg-${Date.now()}`,
+        },
+        id
+      );
     }
+  };
+
+  const addNewMessage = (newMsg, id) => {
+    dispatch(addMessage(newMsg, id));
   };
 
   useEffect(() => {
@@ -39,12 +40,14 @@ export function Chat() {
 
     if (messages[id]?.length !== 0 && lastMessage?.author !== USERS.botName) {
       timeout.current = setTimeout(() => {
-        addMessage({
-          text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
-          author: USERS.botName,
-          role: 'recepient',
-          id: `msg-${Date.now()}`,
-        });
+        addNewMessage({
+            text: "Hello! I`m Bot. Your message was: "+ lastMessage.text,
+            author: USERS.botName,
+            role: 'recepient',
+            id: `msg-${Date.now()}`,
+          },
+          id
+        );
       }, 1000);
   }
     
