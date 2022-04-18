@@ -1,20 +1,26 @@
-import { Switch } from '@mui/material';
+import { Button, Switch } from '@mui/material';
 import { /* connect, */ useDispatch, useSelector } from 'react-redux';
 import { Form } from '../../components/Form/Form';
 import { MainLayout } from '../../components/Layout/MainLayout';
 import { setName, toggleCheckbox } from '../../store/profile/actions';
 import { selectName, selectShowName } from '../../store/profile/selectors';
+import { usePrev } from '../../utils/usePrev';
 
 export const Profile = () => {
   const dispatch = useDispatch();
+
   const name = useSelector(selectName);
   const showName = useSelector(selectShowName);
+  const prevName = usePrev(name);
 
   const handleClick = () => {
     dispatch(toggleCheckbox);
   };
   const handleSubmit = (text) => {
     dispatch(setName(text));
+  };
+  const handleSetPrevName = (prevName) => {
+    dispatch(setName(prevName));
   };
 
   return (
@@ -27,7 +33,13 @@ export const Profile = () => {
                 <Switch onChange={handleClick} checked={showName} />
                 Username
               </div>
-              { showName && <span>{ name }</span>}
+              { showName && <h3>Name: <span>{ name }</span> </h3> }
+              {  prevName
+                  && <div>
+                      <h4> Your previous name: <span>{ prevName }</span></h4> 
+                      <Button onClick={() => handleSetPrevName(prevName)} className="mybtn" type="submit" variant="contained" >Set previous name</Button>
+                    </div>
+              }
           </div>
           <h4>Set your new name: </h4>
           <Form onSubmit={handleSubmit} />
