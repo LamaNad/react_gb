@@ -1,9 +1,11 @@
 import React from 'react';
-import { MainLayout } from '../../components/Layout/MainLayout';
 import { Outlet, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import { MainLayout } from '../../components/Layout/MainLayout';
 import { ChatList } from '../../components/ChatList/ChatList';
 import { Form } from '../../components/Form/Form';
-import { useDispatch } from 'react-redux';
+
 import { addChat } from '../../store/chats/actions';
 import { initMessagesForChat } from '../../store/messages/actions';
 

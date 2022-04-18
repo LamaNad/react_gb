@@ -1,4 +1,4 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Avatar, Grid, Button, Paper, Typography, Stack } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectChats } from '../../store/chats/selectors';
@@ -7,7 +7,6 @@ import { clearMessagesForChat } from '../../store/messages/actions';
 
 export const ChatList = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
 
   const chats = useSelector(selectChats);
 
