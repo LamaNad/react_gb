@@ -23,9 +23,7 @@ export const clearMessagesForChat = (chatId) => ({
 });
 
 let timeout;
-export const addMessageWithReply = (newMsg, chatId) => (dispatch, getState) => {
-    const state = getState();
-    console.log(state);
+export const addMessageWithReply = (newMsg, chatId) => (dispatch) => {
     dispatch(addMessage(newMsg, chatId));
 
     if (newMsg?.length !== 0 && newMsg?.author !== USERS.botName) {
