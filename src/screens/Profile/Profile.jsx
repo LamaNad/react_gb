@@ -1,14 +1,19 @@
-import { Switch } from '@mui/material';
-import { /* connect, */ useDispatch, useSelector } from 'react-redux';
+import { Box, Button, FormGroup, Switch } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Form } from '../../components/Form/Form';
 import { MainLayout } from '../../components/Layout/MainLayout';
+
 import { setName, toggleCheckbox } from '../../store/profile/actions';
 import { selectName, selectShowName } from '../../store/profile/selectors';
+import { usePrev } from '../../utils/usePrev';
 
 export const Profile = () => {
   const dispatch = useDispatch();
+
   const name = useSelector(selectName);
   const showName = useSelector(selectShowName);
+  const prevName = usePrev(name);
 
   const handleClick = () => {
     dispatch(toggleCheckbox);
@@ -16,21 +21,37 @@ export const Profile = () => {
   const handleSubmit = (text) => {
     dispatch(setName(text));
   };
+  const handleSetPrevName = (prevName) => {
+    dispatch(setName(prevName));
+  };
 
   return (
     <MainLayout>
       <div className="wrapper">
         <div className="main-container">
           <div className="content">
-              Profile
-              <div className='show_username__bl'>
-                <Switch onChange={handleClick} checked={showName} />
-                Username
-              </div>
-              { showName && <span>{ name }</span>}
+            <h1>Profile</h1>
+            <h3> Username: <Box sx={{ color: 'primary.main' }}>{name}</Box> </h3>
+            <Box sx={{ flexGrow: 1, maxWidth: 752, background: '#fff5', borderRadius: 5, padding: 3 }} >
+              <FormGroup row>
+                {prevName &&
+                  <Box>
+                    Set previous name:
+                    <Button onClick={() => handleSetPrevName(prevName)} type="submit" > <span sx={{ fontWeight: 'bold' }} variant="contained" >{prevName}</span></Button>
+                  </Box>
+                }
+              </FormGroup>
+              <FormGroup row>
+                <div className='show_username__bl'>
+                  <Switch onChange={handleClick} checked={showName} />
+                  New username
+                </div>
+              </FormGroup>
+              {showName &&
+                    <Form onSubmit={handleSubmit} />
+                }
+            </Box>
           </div>
-          <h4>Set your new name: </h4>
-          <Form onSubmit={handleSubmit} />
         </div>
       </div>
     </MainLayout>
@@ -63,7 +84,7 @@ export const Profile = () => {
 //         </div>
 //       </div>
 //     </MainLayout>
-//   );  
+//   );
 // }
 
 // const mapStateToProps = (state) => ({
@@ -77,6 +98,6 @@ export const Profile = () => {
 // };
 
 // export const Profile = connect(
-//   mapStateToProps, 
+//   mapStateToProps,
 //   mapDispatchProps
 // )(ProfileToConnect);
