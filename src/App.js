@@ -8,6 +8,7 @@ import { Chat as ChatScreen } from "./screens/Chat/Chat";
 import { Profile } from "./screens/Profile/Profile";
 //  UTILS
 import { ThemeContext } from "./utils/ThemeContext";
+import { Nationalize } from "./screens/Nationalize/Nationalize";
 
 
 // APP
@@ -24,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/nationalize" element={<Nationalize />} />
 
           <Route path="/chat" element={ <ChatScreen /> } >
             <Route path=":id" element={ <Chat /> } />
