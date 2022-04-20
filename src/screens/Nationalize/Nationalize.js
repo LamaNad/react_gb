@@ -45,7 +45,7 @@ export const Nationalize = () => {
                 { articles.country && articles.country.map((article) => 
                     <ul key={article.probability}>
                         <li>Country: 
-                            <img src={flagUrl + article.country_id.toLowerCase()+ `.png`} alt={article.country_id} />
+                            <img src={flagUrl + article.country_id.toLowerCase()+ `.png`} alt={article.country_id} className="flag_icon" />
                             {article.country_id} 
                         </li>
                         <li>Probability: {article.probability}</li>
