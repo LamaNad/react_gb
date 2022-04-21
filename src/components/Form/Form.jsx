@@ -20,12 +20,7 @@ export const Form = ({ onSubmit }) => {
     }
 
     useEffect(() => {
-        console.log('did mount');
         inputRef.current?.focus(); // автофокус на текстовое поле при открытии страницы
-
-        return () => {
-            console.log('will unmount');
-        };
     }, []);
 
     return (
