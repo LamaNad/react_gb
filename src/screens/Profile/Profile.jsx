@@ -1,30 +1,44 @@
 import { Box, Button, FormGroup, Switch } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { onValue, set } from 'firebase/database';
+import { useEffect, useState } from 'react';
 
 import { Form } from '../../components/Form/Form';
 import { MainLayout } from '../../components/Layout/MainLayout';
-import { logOut } from '../../services/firebase';
+import { logOut, userNameRef, userShowNameRef } from '../../services/firebase';
 
-import { setName, toggleCheckbox } from '../../store/profile/actions';
-import { selectName, selectShowName } from '../../store/profile/selectors';
 import { usePrev } from '../../utils/usePrev';
 
 export const Profile = ({ onLogout }) => {
-  const dispatch = useDispatch();
+  const [name, setName] = useState('');
+  const [showName, setShowName] = useState('');
 
-  const name = useSelector(selectName);
-  const showName = useSelector(selectShowName);
   const prevName = usePrev(name);
 
   const handleClick = () => {
-    dispatch(toggleCheckbox);
+    set(userShowNameRef, !showName);
   };
   const handleSubmit = (text) => {
-    dispatch(setName(text));
+    set(userNameRef, text);
   };
+
   const handleSetPrevName = (prevName) => {
-    dispatch(setName(prevName));
+    set(userNameRef, prevName);
   };
+
+  useEffect(() => {
+    const unsubscribeName = onValue(userNameRef, (snapshot) => {
+      // snapshot.forEach((child) => console.log(child.key, child.val()));
+      setName(snapshot.val());
+    });
+    const unsubscribeShowName = onValue(userShowNameRef, (snapshot) => {
+      setShowName(snapshot.val());
+    });
+
+    return  () => {
+      unsubscribeName();
+      unsubscribeShowName();
+    };
+  },[]);
 
   return (
     <MainLayout>
@@ -45,13 +59,16 @@ export const Profile = ({ onLogout }) => {
               </FormGroup>
               <FormGroup row>
                 <div className='show_username__bl'>
-                  <Switch onChange={handleClick} checked={showName} />
+                  { showName === 'true'
+                    ? <Switch onChange={handleClick} checked />
+                    : <Switch onChange={handleClick} />
+                  }
                   New username
                 </div>
               </FormGroup>
-              {showName &&
-                    <Form onSubmit={handleSubmit} />
-                }
+              { showName &&
+                  <Form onSubmit={handleSubmit} />
+              }
             </Box>
           </div>
         </div>
@@ -59,47 +76,3 @@ export const Profile = ({ onLogout }) => {
     </MainLayout>
   );
 }
-
-// export const ProfileToConnect = ({name, showName, changeName, changeCheckbox}) => {
-
-//   const handleClick = () => {
-//     changeCheckbox();
-//   };
-//   const handleSubmit = (text) => {
-//     changeName(text);
-//   };
-
-//   return (
-//     <MainLayout>
-//       <div className="wrapper">
-//         <div className="main-container">
-//           <div className="content">
-//               Profile
-//               <div className='show_username__bl'>
-//                 <Switch onClick={handleClick} />
-//                 Username
-//               </div>
-//               { showName && <span>{ name }</span>}
-//           </div>
-//           <h4>Set your new name: </h4>
-//           <Form onSubmit={handleSubmit} />
-//         </div>
-//       </div>
-//     </MainLayout>
-//   );
-// }
-
-// const mapStateToProps = (state) => ({
-//   name: state.profile.name,
-//   showName: state.profile.showName,
-// });
-
-// const mapDispatchProps = {
-//   changeName: setName,
-//   changeCheckbox: () => toggleCheckbox,
-// };
-
-// export const Profile = connect(
-//   mapStateToProps,
-//   mapDispatchProps
-// )(ProfileToConnect);
