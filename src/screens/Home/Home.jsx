@@ -14,7 +14,11 @@ export const Home = ({ onAuth, isSignUp }) => {
         await logIn(login, pass);
       }
     } catch (e) {
-      setError(e.message);
+      const err = e.message;
+      if(err === 'Firebase: Error (auth/invalid-email).' || 'Firebase: Error (auth/user-not-found).'){
+        setError('Invalid email or password');
+      }else{
+        setError(err);}
     }
   };
 
@@ -24,8 +28,7 @@ export const Home = ({ onAuth, isSignUp }) => {
             <div className="main-container">
               <div className="content-wrapper">
                   <h4>Welcome to the chat!</h4>
-                  <LoginForm onSubmit={handleSubmit} />
-                  {error && <h5>{error}</h5>}
+                  <LoginForm onSubmit={handleSubmit} error={error} />
                   { !isSignUp && 
                     <Link to="#" className="forgot_pass__link">Forgot password? </Link>
                    }
