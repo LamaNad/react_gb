@@ -24,7 +24,7 @@ export const Form = ({ onSubmit }) => {
     }, []);
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="submit_form">
             <TextField className="messageInput" value={value} onChange={handleChange} inputRef={inputRef} />
             <Button className="mybtn" type="submit" variant="contained" >Send</Button>
         </form>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Form } from '../../components/Form/Form';
 import { MainLayout } from '../../components/Layout/MainLayout';
+import { logOut } from '../../services/firebase';
 
 import { setName, toggleCheckbox } from '../../store/profile/actions';
 import { selectName, selectShowName } from '../../store/profile/selectors';
@@ -31,7 +32,7 @@ export const Profile = ({ onLogout }) => {
         <div className="main-container">
           <div className="content">
             <h1>Profile</h1>
-            <Button onClick={onLogout}>Logout</Button>
+            <Button onClick={logOut}>Logout</Button>
             <h3> Username: <Box sx={{ color: 'primary.main' }}>{name}</Box> </h3>
             <Box sx={{ flexGrow: 1, maxWidth: 752, background: '#fff5', borderRadius: 5, padding: 3 }} >
               <FormGroup row>
