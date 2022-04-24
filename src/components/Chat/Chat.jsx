@@ -1,37 +1,51 @@
-import { useMemo, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { USERS } from '../../utils/constants';
 import './Chat.scss';
 
 import { Form } from '../../components/Form/Form';
 import { MessageList } from '../../components/MessageList/MessageList';
 
-import { addMessageWithReply } from '../../store/messages/actions';
-import { selectMessagesByChatId } from "../../store/messages/selectors";
+import { onValue, push } from 'firebase/database';
+import { getMsgsListRefById, getMsgsRefById, userNameRef } from '../../services/firebase';
 
 export function Chat() {
-  const dispatch = useDispatch();
   const { id } = useParams();
   const wrapperRef = useRef();
-  const getMessages = useMemo(() => selectMessagesByChatId(id), [id]); // Будет перевыполняться только тогда, когда изменится массив зависимостей
+  const [name, setName] = useState('');
 
-  const messages = useSelector(getMessages);
+  const [ messages, setMessages ] = useState([]);
+  // const getMessages = useMemo(() => selectMessagesByChatId(id), [id]); // Будет перевыполняться только тогда, когда изменится массив зависимостей
 
   const sendMessage = (text) => {
-    if(text !== ""){
-      dispatch(
-        addMessageWithReply({
-            text, 
-            author: USERS.userName, 
-            role: USERS.userRole,
-            id: `msg-${Date.now()}`,
-          },
-          id
-        )
-      );
-    }
+    push(getMsgsListRefById(id), {
+      text, 
+      author: name, 
+      role: USERS.userRole,
+      id: `msg-${Date.now()}`,
+    });
   };
+
+  useEffect(() => {
+    const unsubscribeName = onValue(userNameRef, (snapshot) => {
+      setName(snapshot.val());
+    });
+
+    const unsubscribe = onValue(getMsgsRefById(id), (snapshot) => {
+      const val = snapshot.val();
+      if (!snapshot.val()?.exists) {
+        setMessages(null);
+      } else {
+        setMessages(Object.values(val.messageList || {}));
+      }
+    });
+
+    return  () => {
+      unsubscribe();
+      unsubscribeName();
+    };
+
+  }, [id]);
 
   if (!messages) {
     return <Navigate to="/chat" replace />
