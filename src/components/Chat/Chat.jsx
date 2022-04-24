@@ -7,26 +7,35 @@ import { Form } from '../../components/Form/Form';
 import { MessageList } from '../../components/MessageList/MessageList';
 
 import { onValue, push } from 'firebase/database';
-import { getMsgsListRefById, getMsgsRefById, userNameRef } from '../../services/firebase';
+import { getChatRefById, getMsgsListRefById, getMsgsRefById, userNameRef } from '../../services/firebase';
 
 export function Chat() {
   const { id } = useParams();
   const wrapperRef = useRef();
   const [name, setName] = useState('');
+  const [ recepientName, setRecepientName] = useState('');
+  const timeout = useRef();
 
   const [ messages, setMessages ] = useState([]);
   // const getMessages = useMemo(() => selectMessagesByChatId(id), [id]); // Будет перевыполняться только тогда, когда изменится массив зависимостей
 
   const sendMessage = (text) => {
+
     push(getMsgsListRefById(id), {
       text, 
       author: name, 
       role: USERS.userRole,
       id: `msg-${Date.now()}`,
     });
+
+    
   };
 
   useEffect(() => {
+    const unsubscribeRecepientName = onValue(getChatRefById(id), (snapshot) => {
+      setRecepientName(snapshot.val().author);
+    });
+
     const unsubscribeName = onValue(userNameRef, (snapshot) => {
       setName(snapshot.val());
     });
@@ -43,9 +52,26 @@ export function Chat() {
     return  () => {
       unsubscribe();
       unsubscribeName();
+      unsubscribeRecepientName();
     };
 
-  }, [id]);
+  }, [ id ]);
+
+  useEffect(() => {
+    const lastMessage = messages?.[messages?.length - 1];
+      if (messages?.length !== 0 && lastMessage?.author !== recepientName) {
+        timeout.current = setTimeout(() => {
+          push(getMsgsListRefById(id), {
+            text: "Hello! I`m Bot. Your message was: " + lastMessage.text,
+            author: recepientName,
+            role: 'recepient',
+            id: `msg-${Date.now()}`,
+          });
+        }, 1000);
+      }
+
+      return  () => clearTimeout(timeout.current);
+  }, [ id, messages, recepientName ]);
 
   if (!messages) {
     return <Navigate to="/chat" replace />
