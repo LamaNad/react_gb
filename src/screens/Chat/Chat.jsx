@@ -22,8 +22,6 @@ export const Chat = () => {
       id: `chat-${Date.now()}`,
     };
 
-    // dispatch(addChat(newChat));
-    // dispatch(initMessagesForChat(newChat.id));
     set(getChatRefById(newChat.id), newChat);
     set(getMsgsRefById(newChat.id), {exists: true });
   };

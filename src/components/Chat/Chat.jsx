@@ -7,12 +7,15 @@ import { Form } from '../../components/Form/Form';
 import { MessageList } from '../../components/MessageList/MessageList';
 
 import { onValue, push } from 'firebase/database';
-import { getChatRefById, getMsgsListRefById, getMsgsRefById, userNameRef } from '../../services/firebase';
+import { getChatRefById, getMsgsListRefById, getMsgsRefById, userNameRefById } from '../../services/firebase';
+import { getAuth } from 'firebase/auth';
 
 export function Chat() {
+  const auth = getAuth();
+  const user = auth.currentUser;
   const { id } = useParams();
   const wrapperRef = useRef();
-  const [name, setName] = useState('');
+  const [ name, setName ] = useState('');
   const [ recepientName, setRecepientName] = useState('');
   const timeout = useRef();
 
@@ -28,7 +31,6 @@ export function Chat() {
       id: `msg-${Date.now()}`,
     });
 
-    
   };
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export function Chat() {
       setRecepientName(snapshot.val().author);
     });
 
-    const unsubscribeName = onValue(userNameRef, (snapshot) => {
+    const unsubscribeName = onValue(userNameRefById(user.uid), (snapshot) => {
       setName(snapshot.val());
     });
 
