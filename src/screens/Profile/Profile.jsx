@@ -1,4 +1,4 @@
-import { Box, Button, FormGroup, Grid, Switch} from '@mui/material';
+import { Box, Button, FormGroup, Grid, Switch } from '@mui/material';
 import { getAuth } from 'firebase/auth';
 import { onValue, set } from 'firebase/database';
 import { useEffect, useState } from 'react';
@@ -68,26 +68,24 @@ export const Profile = ({ onLogout }) => {
             <Box sx={{ flexGrow: 1, maxWidth: 752, background: '#fff5', borderRadius: 5, padding: 3 }} >
               <FormGroup row>
                 <div className='show_username__bl'>
-                  {showEditProfile &&
-                    <Switch onChange={handleClick} checked />
-                  }
-                  {!showEditProfile &&
-                    <Switch onChange={handleClick} />
+                  {showEditProfile
+                    ? <Switch onChange={handleClick} checked />
+                    : <Switch onChange={handleClick} />
                   }
                   Edit Profile
                 </div>
               </FormGroup>
-              { showEditProfile &&
+              {showEditProfile &&
                 <Grid container
-                spacing={1}
-                direction="column"
-                alignItems="center" >
+                  spacing={1}
+                  direction="column"
+                  alignItems="center" >
                   <Grid item xs={12}><h2>Edit Profile</h2></Grid>
                   <Grid item xs={6}>
                     <EditForm onSubmit={changeName} label={'Name'} type={'text'} />
                   </Grid>
                   <Grid item xs={6}>
-                    <EditForm onSubmit={changePhone} label={'Phone'} type={'text'}/>
+                    <EditForm onSubmit={changePhone} label={'Phone'} type={'text'} />
                   </Grid>
                 </Grid>
               }

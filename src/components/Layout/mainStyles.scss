@@ -145,7 +145,7 @@ body.light-mode .video-bg:before {
 }
 
 .app {
-  padding: 0 20px;
+  padding: 0 20px 70px 20px;
   background-color: var(--theme-bg-color);
   max-width: 1250px;
   max-height: 860px;
@@ -483,6 +483,7 @@ a.top-link {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  overflow-y: scroll;
 }
 
 .menu-link-main {
