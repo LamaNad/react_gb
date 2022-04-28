@@ -1,3 +1,3 @@
-export const selectArticles = (state) => state.nationalize.data;
-export const selectArticlesStatus = (state) => state.nationalize.status;
-export const selectArticlesError = (state) => state.nationalize.error;
+export const selectNationalize = (state) => state.nationalize.data;
+export const selectNationalizeStatus = (state) => state.nationalize.status;
+export const selectNationalizeError = (state) => state.nationalize.error;

@@ -4,7 +4,6 @@ export const USERS = {
   userRole: 'sender',
 };
 
-// export const apiUrl = "https://api.spaceflightnewsapi.net/v3/articles";
 export const nationalizeApiUrl = "https://api.nationalize.io/?name=";
 export const flagUrl = "https://flagcdn.com/16x12/";
 
