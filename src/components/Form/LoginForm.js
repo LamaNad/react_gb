@@ -40,7 +40,6 @@ export const LoginForm = ({ isSignUp, onSubmit, error }) => {
         if (isSignUp) {
           onAuthStateChanged(auth, (user) => {
             if(user){
-              console.log('LoginForm');
               const newUser = {
                 email: login,
                 name: name,

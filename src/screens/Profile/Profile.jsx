@@ -12,7 +12,7 @@ export const Profile = ({ onLogout }) => {
   const user = auth.currentUser;
 
   const [name, setName] = useState('');
-  const [showEditProfile, setShowEditProfile] = useState('');
+  const [showEditProfile, setShowEditProfile] = useState(false);
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
 
@@ -68,10 +68,7 @@ export const Profile = ({ onLogout }) => {
             <Box sx={{ flexGrow: 1, maxWidth: 752, background: '#fff5', borderRadius: 5, padding: 3 }} >
               <FormGroup row>
                 <div className='show_username__bl'>
-                  {showEditProfile
-                    ? <Switch onChange={handleClick} checked />
-                    : <Switch onChange={handleClick} />
-                  }
+                  <Switch onChange={handleClick} checked={showEditProfile} />
                   Edit Profile
                 </div>
               </FormGroup>
