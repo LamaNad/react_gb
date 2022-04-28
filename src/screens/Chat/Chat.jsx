@@ -1,17 +1,15 @@
 import React from 'react';
 import { Outlet, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 import { MainLayout } from '../../components/Layout/MainLayout';
 import { ChatList } from '../../components/ChatList/ChatList';
 import { Form } from '../../components/Form/Form';
 
-import { addChat } from '../../store/chats/actions';
-import { initMessagesForChat } from '../../store/messages/actions';
+import { getChatRefById, getMsgsRefById } from '../../services/firebase';
+import { set } from 'firebase/database';
 
 
 export const Chat = () => {
-  const dispatch = useDispatch();
   const { id } = useParams();
 
   let options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -24,8 +22,8 @@ export const Chat = () => {
       id: `chat-${Date.now()}`,
     };
 
-    dispatch(addChat(newChat));
-    dispatch(initMessagesForChat(newChat.id));
+    set(getChatRefById(newChat.id), newChat);
+    set(getMsgsRefById(newChat.id), {exists: true });
   };
 
   return (

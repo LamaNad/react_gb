@@ -1,29 +1,56 @@
-import { Box, Button, FormGroup, Switch } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { Box, Button, FormGroup, Grid, Switch } from '@mui/material';
+import { getAuth } from 'firebase/auth';
+import { onValue, set } from 'firebase/database';
+import { useEffect, useState } from 'react';
 
-import { Form } from '../../components/Form/Form';
+import { EditForm } from '../../components/Form/Profile/EditForm';
 import { MainLayout } from '../../components/Layout/MainLayout';
-
-import { setName, toggleCheckbox } from '../../store/profile/actions';
-import { selectName, selectShowName } from '../../store/profile/selectors';
-import { usePrev } from '../../utils/usePrev';
+import { getUserRefById, logOut, userNameRefById, userPhoneRefById, userShowEditProfileRefById } from '../../services/firebase';
 
 export const Profile = ({ onLogout }) => {
-  const dispatch = useDispatch();
+  const auth = getAuth();
+  const user = auth.currentUser;
 
-  const name = useSelector(selectName);
-  const showName = useSelector(selectShowName);
-  const prevName = usePrev(name);
+  const [name, setName] = useState('');
+  const [showEditProfile, setShowEditProfile] = useState(false);
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
 
   const handleClick = () => {
-    dispatch(toggleCheckbox);
+    set(userShowEditProfileRefById(user.uid), !showEditProfile);
   };
-  const handleSubmit = (text) => {
-    dispatch(setName(text));
+
+  const changeName = (value) => {
+    set(userNameRefById(user.uid), value);
   };
-  const handleSetPrevName = (prevName) => {
-    dispatch(setName(prevName));
+
+  const changePhone = (value) => {
+    set(userPhoneRefById(user.uid), value);
   };
+
+  useEffect(() => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    setEmail(user.email);
+
+    const unsubscribeProfile = onValue(getUserRefById(user.uid), (snapshot) => {
+      const val = snapshot.val();
+      setName(val.name);
+      setPhone(val.phone);
+    });
+
+    const unsubscribeShowEditProfile = onValue(getUserRefById(user.uid), (snapshot) => {
+      const val = snapshot.val();
+      setShowEditProfile(val.showEditProfile);
+    });
+
+    return () => {
+      unsubscribeProfile();
+      unsubscribeShowEditProfile();
+    };
+
+  }, []);
+
 
   return (
     <MainLayout>
@@ -31,26 +58,34 @@ export const Profile = ({ onLogout }) => {
         <div className="main-container">
           <div className="content">
             <h1>Profile</h1>
-            <Button onClick={onLogout}>Logout</Button>
-            <h3> Username: <Box sx={{ color: 'primary.main' }}>{name}</Box> </h3>
+            <Button onClick={logOut}>Logout</Button>
+            <Grid container >
+              <Grid item xs={6}><h3> Username: <Box sx={{ color: 'primary.main' }}>{name}</Box> </h3></Grid>
+              <Grid item xs={6}><h3> Email: <Box sx={{ color: 'primary.main' }}>{email}</Box> </h3></Grid>
+              <Grid item xs={12}><h3> Phone: <Box sx={{ color: 'primary.main' }}>{phone}</Box> </h3></Grid>
+            </Grid>
+
             <Box sx={{ flexGrow: 1, maxWidth: 752, background: '#fff5', borderRadius: 5, padding: 3 }} >
               <FormGroup row>
-                {prevName &&
-                  <Box>
-                    Set previous name:
-                    <Button onClick={() => handleSetPrevName(prevName)} type="submit" > <span sx={{ fontWeight: 'bold' }} variant="contained" >{prevName}</span></Button>
-                  </Box>
-                }
-              </FormGroup>
-              <FormGroup row>
                 <div className='show_username__bl'>
-                  <Switch onChange={handleClick} checked={showName} />
-                  New username
+                  <Switch onChange={handleClick} checked={showEditProfile} />
+                  Edit Profile
                 </div>
               </FormGroup>
-              {showName &&
-                    <Form onSubmit={handleSubmit} />
-                }
+              {showEditProfile &&
+                <Grid container
+                  spacing={1}
+                  direction="column"
+                  alignItems="center" >
+                  <Grid item xs={12}><h2>Edit Profile</h2></Grid>
+                  <Grid item xs={6}>
+                    <EditForm onSubmit={changeName} label={'Name'} type={'text'} />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <EditForm onSubmit={changePhone} label={'Phone'} type={'text'} />
+                  </Grid>
+                </Grid>
+              }
             </Box>
           </div>
         </div>
@@ -58,47 +93,3 @@ export const Profile = ({ onLogout }) => {
     </MainLayout>
   );
 }
-
-// export const ProfileToConnect = ({name, showName, changeName, changeCheckbox}) => {
-
-//   const handleClick = () => {
-//     changeCheckbox();
-//   };
-//   const handleSubmit = (text) => {
-//     changeName(text);
-//   };
-
-//   return (
-//     <MainLayout>
-//       <div className="wrapper">
-//         <div className="main-container">
-//           <div className="content">
-//               Profile
-//               <div className='show_username__bl'>
-//                 <Switch onClick={handleClick} />
-//                 Username
-//               </div>
-//               { showName && <span>{ name }</span>}
-//           </div>
-//           <h4>Set your new name: </h4>
-//           <Form onSubmit={handleSubmit} />
-//         </div>
-//       </div>
-//     </MainLayout>
-//   );
-// }
-
-// const mapStateToProps = (state) => ({
-//   name: state.profile.name,
-//   showName: state.profile.showName,
-// });
-
-// const mapDispatchProps = {
-//   changeName: setName,
-//   changeCheckbox: () => toggleCheckbox,
-// };
-
-// export const Profile = connect(
-//   mapStateToProps,
-//   mapDispatchProps
-// )(ProfileToConnect);

@@ -1,7 +1,7 @@
 import { SET_NAME, TOGGLE_CHECKBOX } from "./actions";
 
 const initialState = {
-  showName: false,
+  setShowEditProfile: false,
   name: "defaultName",
 };
 
@@ -10,7 +10,7 @@ export const profileReducer = (state = initialState, action) => {
     case TOGGLE_CHECKBOX: {
       return {
         ...state,
-        showName: !state.showName,
+        setShowEditProfile: !state.setShowEditProfile,
       };
     }
     case SET_NAME: {

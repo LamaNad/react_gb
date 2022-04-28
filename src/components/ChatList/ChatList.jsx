@@ -1,19 +1,26 @@
 import { NavLink } from 'react-router-dom';
 import { Avatar, Grid, Button, Paper, Typography, Stack } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectChats } from '../../store/chats/selectors';
-import { deleteChat } from '../../store/chats/actions';
-import { clearMessagesForChat } from '../../store/messages/actions';
+import { useEffect, useState } from 'react';
+import { onValue, remove, set } from 'firebase/database';
+import { chatsRef, getChatRefById, getMsgsRefById } from '../../services/firebase';
 
 export const ChatList = () => {
-  const dispatch = useDispatch();
-
-  const chats = useSelector(selectChats);
+  const [ chats, setChats ] = useState([]);
 
   const handleRemoveChat = (id) => {
-    dispatch(deleteChat(id));
-    dispatch(clearMessagesForChat(id));
+    // dispatch(deleteChat(id));
+    // set(getChatRefById(id), null);
+    remove(getChatRefById(id)); //тоже самое что set(... , null)    
+    set(getMsgsRefById(id), null);
+
   };
+
+  useEffect(() => {
+    const unsubscribe = onValue(chatsRef, (snapshot) => {
+      setChats(Object.values(snapshot.val() || {} ));
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <div>

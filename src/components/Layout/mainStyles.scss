@@ -21,6 +21,8 @@
   --search-bg: #14162b;
   --overlay-bg: rgba(36, 39, 59, 0.3);
   --scrollbar-bg: #1c1c1cb0;
+  --link: #ffffff;
+  --border: #dadde1;
 }
 
 .light-mode {
@@ -37,6 +39,8 @@
   --hover-menu-bg: rgba(255 255 255 / 35%);
   --scrollbar-bg: rgb(255 253 253 / 57%);
   --content-title-color: --theme-color;
+  --link: #1877f2;
+  --border: #dadde1;
 }
 
 html {
@@ -141,7 +145,7 @@ body.light-mode .video-bg:before {
 }
 
 .app {
-  padding: 0 20px;
+  padding: 0 20px 70px 20px;
   background-color: var(--theme-bg-color);
   max-width: 1250px;
   max-height: 860px;
@@ -479,6 +483,7 @@ a.top-link {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  overflow-y: scroll;
 }
 
 .menu-link-main {
@@ -1005,4 +1010,23 @@ button.del_btn.css-180lf2n-MuiButtonBase-root-MuiButton-root {
 }
 img.flag_icon {
   margin: 0 6px;
+}
+.forgot_pass__link{
+  color:  var(--link);
+  border-bottom: 1px solid  var(--border);
+  text-align: center;
+  text-decoration: none;
+  padding: 15px 0;
+}
+.create_account__link{
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  background-color: #42b72a;
+  width: fit-content;
+  padding: 8px;
+  border-radius: 6px;
+  margin: 10px auto;
+  min-width: 200px;
+  text-align: center;
 }

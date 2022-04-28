@@ -1,37 +1,79 @@
-import { useMemo, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { USERS } from '../../utils/constants';
 import './Chat.scss';
 
 import { Form } from '../../components/Form/Form';
 import { MessageList } from '../../components/MessageList/MessageList';
 
-import { addMessageWithReply } from '../../store/messages/actions';
-import { selectMessagesByChatId } from "../../store/messages/selectors";
+import { onValue, push } from 'firebase/database';
+import { getChatRefById, getMsgsListRefById, getMsgsRefById, userNameRefById } from '../../services/firebase';
+import { getAuth } from 'firebase/auth';
 
 export function Chat() {
-  const dispatch = useDispatch();
+  const auth = getAuth();
+  const user = auth.currentUser;
   const { id } = useParams();
   const wrapperRef = useRef();
-  const getMessages = useMemo(() => selectMessagesByChatId(id), [id]); // Будет перевыполняться только тогда, когда изменится массив зависимостей
+  const [ name, setName ] = useState('');
+  const [ recepientName, setRecepientName] = useState('');
+  const timeout = useRef();
 
-  const messages = useSelector(getMessages);
+  const [ messages, setMessages ] = useState([]);
+  // const getMessages = useMemo(() => selectMessagesByChatId(id), [id]); // Будет перевыполняться только тогда, когда изменится массив зависимостей
 
   const sendMessage = (text) => {
-    if(text !== ""){
-      dispatch(
-        addMessageWithReply({
-            text, 
-            author: USERS.userName, 
-            role: USERS.userRole,
-            id: `msg-${Date.now()}`,
-          },
-          id
-        )
-      );
-    }
+
+    push(getMsgsListRefById(id), {
+      text, 
+      author: name, 
+      role: USERS.userRole,
+      id: `msg-${Date.now()}`,
+    });
+
   };
+
+  useEffect(() => {
+    const unsubscribeRecepientName = onValue(getChatRefById(id), (snapshot) => {
+      setRecepientName(snapshot.val().author);
+    });
+
+    const unsubscribeName = onValue(userNameRefById(user.uid), (snapshot) => {
+      setName(snapshot.val());
+    });
+
+    const unsubscribe = onValue(getMsgsRefById(id), (snapshot) => {
+      const val = snapshot.val();
+      if (!snapshot.val()?.exists) {
+        setMessages(null);
+      } else {
+        setMessages(Object.values(val.messageList || {}));
+      }
+    });
+
+    return  () => {
+      unsubscribe();
+      unsubscribeName();
+      unsubscribeRecepientName();
+    };
+
+  }, [ id ]);
+
+  useEffect(() => {
+    const lastMessage = messages?.[messages?.length - 1];
+      if (messages?.length !== 0 && lastMessage?.author !== recepientName) {
+        timeout.current = setTimeout(() => {
+          push(getMsgsListRefById(id), {
+            text: "Hello! I`m Bot. Your message was: " + lastMessage.text,
+            author: recepientName,
+            role: 'recepient',
+            id: `msg-${Date.now()}`,
+          });
+        }, 1000);
+      }
+
+      return  () => clearTimeout(timeout.current);
+  }, [ id, messages, recepientName ]);
 
   if (!messages) {
     return <Navigate to="/chat" replace />
