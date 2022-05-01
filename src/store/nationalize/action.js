@@ -1,33 +1,33 @@
-export const GET_ARTICLES_REQUEST = "NATIONALIZE::GET_ARTICLES_REQUEST";
-export const GET_ARTICLES_SUCCESS = "NATIONALIZE::GET_ARTICLES_SUCCESS";
-export const GET_ARTICLES_FAILURE = "NATIONALIZE::GET_ARTICLES_FAILURE";
+export const GET_NATIONALIZE_REQUEST = "NATIONALIZE::GET_NATIONALIZE_REQUEST";
+export const GET_NATIONALIZE_SUCCESS = "NATIONALIZE::GET_NATIONALIZE_SUCCESS";
+export const GET_NATIONALIZE_FAILURE = "NATIONALIZE::GET_NATIONALIZE_FAILURE";
 
-export const getArticlesRequest = () => ({
-    type: GET_ARTICLES_REQUEST,
+export const getNationalizeRequest = () => ({
+    type: GET_NATIONALIZE_REQUEST,
 });
 
-export const getArticlesSuccess = (data) => ({
-     type: GET_ARTICLES_SUCCESS,
-     payload: data,
+export const getNationalizeSuccess = (data) => ({
+    type: GET_NATIONALIZE_SUCCESS,
+    payload: data,
 });
 
-export const getArticlesFailure = (err) => ({
-     type: GET_ARTICLES_FAILURE,
-     payload: err,
+export const getNationalizeFailure = (err) => ({
+    type: GET_NATIONALIZE_FAILURE,
+    payload: err,
 });
 
-export const getArticles = (newApiUrl) => async (dispatch) => {
+export const getNationalize = (newApiUrl) => async (dispatch) => {
     try {
-        dispatch(getArticlesRequest());
+        dispatch(getNationalizeRequest());
         const response = await fetch(newApiUrl);
 
-        if(!response.ok) {
+        if (!response.ok) {
             throw new Error(`Response failed with status ${response.status}`);
         }
 
         const result = await response.json();
-        dispatch(getArticlesSuccess(result));
+        dispatch(getNationalizeSuccess(result));
     } catch (e) {
-        dispatch(getArticlesFailure(e.message));
+        dispatch(getNationalizeFailure(e.message));
     }
 };
